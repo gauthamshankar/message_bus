@@ -71,7 +71,7 @@ class MessageBus::Rack::Middleware
 
     # need to mandate that the method is defined
     user_result = @bus.user_id_lookup.call(env)
-    return [401, {}, [code: user_result[1]]] unless user_result[0]
+    return [401, {"Content-Type" => "application/json"}, [ {code: user_result[1]}.to_json ]] unless user_result[0]
 
     user_id = user_result[0]
     group_ids = @bus.group_ids_lookup.call(env) if @bus.group_ids_lookup
